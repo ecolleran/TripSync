@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request, session, redirect, url_for, flash
 from functools import wraps
-from flask_mysqldb import MySQL
 ### IMPORTS ###
 from basic_functions import *
 from login_required_wrapper import login_required

@@ -1,27 +1,29 @@
 from flask import Flask, render_template, request, session, redirect, url_for, flash
 from functools import wraps
-from flask_mysqldb import MySQL
+import cx_Oracle
 import hashlib
 import os
 
 ### FLASK SETUP ###
 
 app = Flask(__name__)
-app.secret_key='wearechefs'
+app.secret_key='letstipit'
 
 ### SQL SETUP ###
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = os.environ['SQL_PASS']
-app.config['MYSQL_DB'] = 'culinarycanvas'
+oracle_user = "system"
+oracle_password = os.environ.get("SQL_PASS")  #well need to set this in the environment
+oracle_host = "localhost"
+oracle_port = "1521"
+oracle_service = "XEPDB1"  #default pluggable database in XE 21c
 
-mysql = MySQL(app)
+dsn = cx_Oracle.makedsn(oracle_host, oracle_port, service_name=oracle_service)
 
 
 ### FUNCTIONS ###
 def get_connection():
-    print("connected to sql")
-    return mysql
+    connection = cx_Oracle.connect(user=oracle_user, password=oracle_password, dsn=dsn)
+    print("connected to Oracle XE")
+    return connection
 
 def get_app():
     return app

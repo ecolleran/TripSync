@@ -4,8 +4,6 @@ from login_required_wrapper import login_required
 import hashlib
 from sql_connection import get_connection
 
-import MySQLdb
-
 ### SQL SETUP ###
 mysql = get_connection()
 

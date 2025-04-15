@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Explore Destinations</h2>
+
+<form method="POST">
+  <input type="text" name="keyword" placeholder="Search..." required>
+  <button type="submit">Search</button>
+</form>
+
+<ul>
+  {% for t in trips %}
+    <li>
+      <form method="POST" action="/trip_details">
+        <input type="hidden" name="trip_id" value="{{ t.trip_id }}">
+        <button type="submit">{{ t.destination_name }}</button>
+      </form>
+    </li>
+  {% else %}
+    <li>No destinations found.</li>
+  {% endfor %}
+</ul>
+{% endblock %}

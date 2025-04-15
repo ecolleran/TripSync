@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>{{ group.group_name }}</h2>
+<h3>Members</h3>
+<ul>
+  {% for m in members %}
+    <li>{{ m.username }}</li>
+  {% endfor %}
+</ul>
+<h3>Planned Trips</h3>
+<ul>
+  {% for t in trips %}
+    <li>{{ t.destination_name }}</li>
+  {% endfor %}
+</ul>
+{% endblock %}

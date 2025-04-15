@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Delete Your Account</h2>
+<form method="POST">
+  <input type="password" name="password" placeholder="Confirm Password">
+  <button type="submit">Delete Account</button>
+</form>
+{% if error %}
+  <p style="color: red">{{ error }}</p>
+{% endif %}
+{% endblock %}

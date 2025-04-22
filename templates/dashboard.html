@@ -1,6 +1,16 @@
 {% extends "base.html" %}
-
 {% block content %}
-<h1>Hello, this is your dashboard!</h1>
-<p>If you're seeing this, the template is rendering correctly.</p>
+<h2>Welcome, {{ name }}!</h2>
+
+<h3>Your Groups:</h3>
+<ul>
+  {% for g in groups %}
+    <li>
+      <a href="/group/{{ g.group_id }}">{{ g.group_name }}</a>
+    </li>
+  {% else %}
+    <li>You’re not in any groups yet.</li>
+  {% endfor %}
+</ul>
+<a href="/explore">Explore destinations</a>
 {% endblock %}

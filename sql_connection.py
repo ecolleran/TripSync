@@ -11,7 +11,7 @@ app.secret_key='letstripit'
 
 ### SQL SETUP ###
 oracle_user = "oracle"
-oracle_password = "Tripsync123"  #well need to set this in the environment
+oracle_password = "TripSync123"  #well need to set this in the environment
 oracle_host = "localhost"
 oracle_port = "1521"
 oracle_service = "XEPDB1"  #default pluggable database in XE 21c

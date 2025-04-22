@@ -7,11 +7,11 @@ import os
 ### FLASK SETUP ###
 
 app = Flask(__name__)
-app.secret_key='letstipit'
+app.secret_key='letstripit'
 
 ### SQL SETUP ###
-oracle_user = "system"
-oracle_password = os.environ.get("SQL_PASS")  #well need to set this in the environment
+oracle_user = "oracle"
+oracle_password = "TripSync1"  #well need to set this in the environment
 oracle_host = "localhost"
 oracle_port = "1521"
 oracle_service = "XEPDB1"  #default pluggable database in XE 21c

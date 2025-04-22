@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request, session, redirect, url_for, flash
 from functools import wraps
-from flask_mysqldb import MySQL
 import hashlib
 
 ### FUNCTIONS ###

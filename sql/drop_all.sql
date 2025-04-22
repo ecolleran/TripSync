@@ -1,0 +1,11 @@
+drop table users;
+drop table groups;
+drop table group_mebers;
+drop table trips;
+drop table destinations;
+drop table flights;
+drop table accomodations;
+drop table restaurants;
+drop table activities;
+drop table expenses;
+drop table expense_settlements;

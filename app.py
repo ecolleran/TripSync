@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request, session, redirect, url_for, flash
+from flask import Flask
+from flask import render_template, request, session, redirect, url_for, flash
 from functools import wraps
 ### IMPORTS ###
 from basic_functions import *

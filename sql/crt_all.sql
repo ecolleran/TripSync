@@ -1,0 +1,15 @@
+@crt_users
+@crt_groups
+@crt_group_members
+@crt_trips
+@crt_destinations
+@crt_flights
+@crt_accomodations
+@crt_restaurants
+@crt_activities
+@crt_expenses
+@crt_expense_settlements
+
+
+
+

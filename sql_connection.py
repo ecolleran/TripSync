@@ -10,11 +10,11 @@ app = Flask(__name__)
 app.secret_key='letstripit'
 
 ### SQL SETUP ###
-oracle_user = "oracle"
-oracle_password = "TripSync123"  #well need to set this in the environment
+oracle_user = "tripsync"
+oracle_password = "tripsync"  #well need to set this in the environment
 oracle_host = "localhost"
-oracle_port = "1521"
-oracle_service = "XEPDB1"  #default pluggable database in XE 21c
+oracle_port = "1539"
+oracle_service = "XE"  #default pluggable database in XE 21c
 
 dsn = cx_Oracle.makedsn(oracle_host, oracle_port, service_name=oracle_service)
 

@@ -1,6 +1,6 @@
 drop table users;
 drop table groups;
-drop table group_mebers;
+drop table group_members;
 drop table trips;
 drop table destinations;
 drop table flights;
@@ -9,3 +9,5 @@ drop table restaurants;
 drop table activities;
 drop table expenses;
 drop table expense_settlements;
+drop table friends;
+@drop_sequences;

@@ -1,7 +1,7 @@
 create table accomodations
 	(accomodation_id integer PRIMARY KEY,
-	 trip_id integer PRIMARY KEY,
-	 accomodation_number int PRIMARY KEY,
+	 trip_id integer,
+	 accomodation_number integer,
 	 accomodation_name varchar(50),
 	 accomodation_type varchar(30),
 	 address_line_1 varchar(100),

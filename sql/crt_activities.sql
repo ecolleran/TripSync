@@ -1,6 +1,6 @@
 create table activities
 	(activity_id integer PRIMARY KEY,
-	 trip_id integer PRIMARY KEY,
+	 trip_id integer,
 	 activity_name varchar(50),
 	 activity_description varchar(200),
 	 address_line_1 varchar(100),

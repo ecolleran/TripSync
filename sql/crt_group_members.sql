@@ -1,4 +1,5 @@
 create table group_members
-	(group_id integer PRIMARY KEY,
-	 user_id integer PRIMARY KEY,
+	(member_id integer PRIMARY KEY,
+	group_id integer,
+	 user_id integer,
      joined_at timestamp);

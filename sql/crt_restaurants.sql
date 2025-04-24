@@ -1,6 +1,6 @@
 create table restaurants
 	(restaurant_id integer PRIMARY KEY,
-	 trip_id integer PRIMARY KEY,
+	 trip_id integer,
 	 restaurant_name varchar(50),
 	 cuisine_type varchar(30),
 	 address_line_1 varchar(100),

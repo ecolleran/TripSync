@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>{{ trip.destination_name }}</h2>
+<img src="{{ trip.image_url }}" alt="Trip Image" width="300">
+<p>{{ trip.description }}</p>
+
+<h3>Itinerary</h3>
+<ol>
+  {% for step in itinerary %}
+    <li>{{ step.detail }}</li>
+  {% else %}
+    <li>No itinerary available for this trip.</li>
+  {% endfor %}
+</ol>
+{% endblock %}

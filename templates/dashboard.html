@@ -1,16 +1,554 @@
-{% extends "base.html" %}
-{% block content %}
-<h2>Welcome, {{ name }}!</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TripSync - Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            min-height: 100vh;
+        }
 
-<h3>Your Groups:</h3>
-<ul>
-  {% for g in groups %}
-    <li>
-      <a href="/group/{{ g.group_id }}">{{ g.group_name }}</a>
-    </li>
-  {% else %}
-    <li>You’re not in any groups yet.</li>
-  {% endfor %}
-</ul>
-<a href="/explore">Explore destinations</a>
-{% endblock %}
+        .navbar {
+            padding: 1.2rem 2rem;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+        }
+
+        .navbar-brand img {
+            height: 120px;
+            transition: transform 0.3s ease;
+        }
+
+        .navbar-brand:hover img {
+            transform: scale(1.05);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            padding: 5px 30px;
+            border-radius: 50px;
+            background-color: #f8f9fa;
+            transition: all 0.3s ease;
+        }
+
+        .user-profile:hover {
+            background-color: #e9ecef;
+        }
+
+        .profile-picture {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin-right: 20px;
+            object-fit: cover;
+            border: 2px solid #007bff;
+        }
+
+        .user-name {
+            color: #495057;
+            font-weight: 500;
+            font-size: 1.5rem;
+            margin-right: 8px;
+        }
+
+        .user-profile i {
+            font-size: 1.1rem;
+        }
+
+        .dropdown-menu {
+            margin-top: 10px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border: none;
+            padding: 10px;
+            min-width: 220px;
+        }
+
+        .dropdown-item {
+            border-radius: 8px;
+            padding: 8px 20px;
+            color: #495057;
+            font-size: 1.5rem;
+            transition: all 0.2s ease;
+        }
+
+        .dropdown-item i {
+            font-size: 1.2rem;
+            margin-right: 12px;
+            width: 25px;
+        }
+
+        .dropdown-item:hover {
+            background-color: #f8f9fa;
+            color: #007bff;
+        }
+
+        .welcome-section {
+            text-align: center;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+        }
+
+        .welcome-text {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: #2d3436;
+            background: linear-gradient(45deg, #1a73e8, #0056b3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .dashboard-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            height: 100%;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #2d3436;
+        }
+
+        .list-group {
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            flex-grow: 1;
+        }
+
+        .list-group-item {
+            border: none;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            background-color: #f8f9fa;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        .list-group-item:hover {
+            background-color: #e9ecef;
+            transform: translateX(5px);
+        }
+
+        .btn-create {
+            background: linear-gradient(45deg, #007bff, #0056b3);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            width: 100%;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .btn-create:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,123,255,0.2);
+            color: white;
+        }
+
+        .btn-find-trip {
+            background: linear-gradient(45deg, #28a745, #218838);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .btn-find-trip:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(40,167,69,0.2);
+            color: white;
+        }
+
+        .empty-state {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 150px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .empty-state p {
+            margin: 0;
+            color: #6c757d;
+        }
+
+        .item-image {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            object-fit: cover;
+            margin-right: 1rem;
+        }
+
+        .item-info {
+            flex: 1;
+        }
+
+        .item-title {
+            margin: 0;
+            font-weight: 500;
+            color: #2d3436;
+            font-size: 1rem;
+        }
+
+        .item-subtitle {
+            margin: 0;
+            font-size: 0.875rem;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="TripSync Logo">
+            </a>
+            
+            <div class="d-flex align-items-center">
+                <a href="{{ url_for('trip_search') }}" class="btn-find-trip me-3">
+                    <i class="fas fa-search me-2"></i>Plan a Trip!
+                </a>
+                <div class="dropdown">
+		    <!-- In the navbar -->
+		    <div class="user-profile" data-bs-toggle="dropdown" aria-expanded="false">
+    {% if session.get('profile_picture') %}
+        <img src="data:image/*;base64,{{ session.get('profile_picture') }}" 
+             alt="Profile Picture" 
+             class="profile-picture"
+             onerror="this.src='{{ url_for('static', filename='images/default-profile.png') }}'">
+    {% else %}
+        <img src="{{ url_for('static', filename='images/default-profile.png') }}" 
+             alt="Profile Picture" 
+             class="profile-picture">
+    {% endif %}
+    <span class="user-name">{{ session.get('first_name', 'User') }}</span>
+    <i class="fas fa-chevron-down ms-2"></i>
+</div>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="{{ url_for('dashboard') }}">
+                            <i class="fas fa-columns me-2"></i>Dashboard
+                        </a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('settings') }}">
+                            <i class="fas fa-cog me-2"></i>Settings
+                        </a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{{ url_for('logout') }}">
+                            <i class="fas fa-sign-out-alt me-2"></i>Log Out
+                        </a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Welcome Section -->
+    <div class="container">
+        <div class="welcome-section">
+            <h1 class="welcome-text">Hi {{ session.get('first_name', 'there') }}, Let's Plan a Trip!</h1>
+        </div>
+
+        <!-- Dashboard Content -->
+        <div class="row">
+ 	    <!-- My Groups -->
+<div class="col-md-4 mb-4">
+    <div class="dashboard-card">
+        <h2 class="card-title">My Groups</h2>
+        <div class="list-group">
+            {% if groups %}
+                {% for group in groups %}
+                    <a href="{{ url_for('group_details', group_id=group[0]) }}" class="list-group-item text-decoration-none">
+                        {% if group[3] %}
+                            <img src="data:image/png;base64,{{ group[3] }}" 
+                                 alt="{{ group[1] }}" 
+                                 class="item-image">
+                        {% else %}
+                            <img src="{{ url_for('static', filename='images/default-group.png') }}" 
+                                 alt="{{ group[1] }}" 
+                                 class="item-image">
+                        {% endif %}
+                        <div class="item-info">
+                            <h6 class="item-title">{{ group[1] }}</h6>
+                            <p class="item-subtitle">{{ group[4] }} members</p>
+                        </div>
+                    </a>
+                {% endfor %}
+            {% else %}
+                <div class="empty-state">
+                    <p class="text-muted">You haven't joined any groups yet.</p>
+                </div>
+            {% endif %}
+        </div>
+        <a href="{{ url_for('create_new_group') }}" class="btn btn-create">
+            <i class="fas fa-plus me-2"></i>Create Group
+        </a>
+    </div>
+</div>
+	    <!-- My Trips -->
+<div class="col-md-4 mb-4">
+    <div class="dashboard-card">
+        <h2 class="card-title">My Trips</h2>
+        <div class="list-group">
+            {% if trips %}
+                {% for trip in trips %}
+                    <a href="{{ url_for('trip_details', trip_id=trip.id) }}" class="list-group-item text-decoration-none">
+                        {% if trip.photo %}
+                            <img src="data:image/*;base64,{{ trip.photo }}" 
+                                 alt="{{ trip.destination }}" 
+                                 class="item-image">
+                        {% else %}
+                            <img src="{{ url_for('static', filename='images/default-trip.png') }}" 
+                                 alt="{{ trip.destination }}" 
+                                 class="item-image">
+                        {% endif %}
+                        <div class="item-info">
+                            <h6 class="item-title">{{ trip.destination }}</h6>
+                            <p class="item-subtitle">
+                                {% if trip.start_date %}
+                                    {{ trip.start_date.strftime('%b %d, %Y') }}
+                                {% else %}
+                                    Date not set
+                                {% endif %}
+                                <br>
+                                <small>{{ trip.group_name }}</small>
+                            </p>
+                        </div>
+                    </a>
+                {% endfor %}
+            {% else %}
+                <div class="empty-state">
+                    <p class="text-muted">You haven't created any trips yet.</p>
+                </div>
+            {% endif %}
+        </div>
+        <a href="{{ url_for('create_new_trip') }}" class="btn btn-create">
+            <i class="fas fa-plus me-2"></i>Create Trip
+        </a>
+    </div>
+</div>
+
+	     <!-- My Friends -->
+<div class="col-md-4 mb-4">
+    <div class="dashboard-card">
+        <h2 class="card-title">My Friends</h2>
+        <div class="list-group">
+            {% if friends %}
+                {% for friend in friends %}
+                    <div class="list-group-item">
+                        {% if friend.profile_picture %}
+                            <img src="data:image/*;base64,{{ friend.profile_picture }}" 
+                                 alt="{{ friend.username }}" 
+                                 class="item-image">
+                        {% else %}
+                            <img src="{{ url_for('static', filename='images/default-profile.png') }}" 
+                                 alt="{{ friend.username }}" 
+                                 class="item-image">
+                        {% endif %}
+                        <div class="item-info">
+                            <h6 class="item-title">{{ friend.full_name }}</h6>
+                            <p class="item-subtitle">
+                                {{ friend.username }}
+                                <br>
+                                <small>{{ friend.trips_together }} trip{{ 's' if friend.trips_together != 1 }} together</small>
+                            </p>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="empty-state">
+                    <p class="text-muted">You haven't added any friends yet.</p>
+                </div>
+            {% endif %}
+        </div>
+        <a href="#" class="btn btn-create" data-bs-toggle="modal" data-bs-target="#addFriendModal">
+            <i class="fas fa-plus me-2"></i>Add Friend
+        </a>
+    </div>
+</div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Add Friend Modal -->
+<div class="modal fade" id="addFriendModal" tabindex="-1" aria-labelledby="addFriendModalLabel" aria-hidden="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addFriendModalLabel">Add Friend</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="search-container mb-3">
+                    <input type="text" 
+                           id="friendSearchInput" 
+                           class="form-control" 
+                           placeholder="Search by username..."
+                           autocomplete="off">
+                </div>
+                <div id="searchResults" class="search-results">
+                    <!-- Search results will be displayed here -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add this JavaScript before the closing body tag -->
+<script>
+let searchTimeout;
+const searchInput = document.getElementById('friendSearchInput');
+const searchResults = document.getElementById('searchResults');
+
+searchInput.addEventListener('input', function() {
+    clearTimeout(searchTimeout);
+    const query = this.value.trim();
+    
+    if (query.length < 1) {
+        searchResults.innerHTML = '';
+        return;
+    }
+    
+    // Add delay to prevent too many requests
+    searchTimeout = setTimeout(() => {
+        fetch(`/search_users?query=${encodeURIComponent(query)}`)
+            .then(response => response.json())
+            .then(data => {
+                searchResults.innerHTML = '';
+                if (data.users.length === 0) {
+                    searchResults.innerHTML = '<p class="text-muted text-center">No users found</p>';
+                    return;
+                }
+                
+                data.users.forEach(user => {
+                    const resultDiv = document.createElement('div');
+                    resultDiv.className = 'search-result-item d-flex align-items-center justify-content-between p-3 mb-2';
+                    resultDiv.innerHTML = `
+                        <div>
+                            <h6 class="mb-1">${user.username}</h6>
+                            <p class="mb-0 text-muted">${user.full_name}</p>
+                        </div>
+                        <button class="btn btn-primary add-friend-btn" 
+                                data-user-id="${user.user_id}"
+                                onclick="addFriend(${user.user_id})">
+                            Add Friend
+                        </button>
+                    `;
+                    searchResults.appendChild(resultDiv);
+                });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                searchResults.innerHTML = '<p class="text-danger text-center">An error occurred</p>';
+            });
+    }, 300);
+});
+
+function addFriend(friendId) {
+    fetch('/add_friend', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ friend_id: friendId })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Close the modal
+            const modal = bootstrap.Modal.getInstance(document.getElementById('addFriendModal'));
+            modal.hide();
+            
+            // Refresh the friends list (you might want to implement this)
+            location.reload();
+        } else {
+            alert(data.message || 'Failed to add friend');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred while adding friend');
+    });
+}
+</script>
+
+<style>
+.search-result-item {
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.search-result-item:hover {
+    background-color: #e9ecef;
+    transform: translateX(5px);
+}
+
+.add-friend-btn {
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+}
+
+#addFriendModal .modal-content {
+    border-radius: 15px;
+    border: none;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+#addFriendModal .modal-header {
+    border-bottom: none;
+    padding: 1.5rem;
+}
+
+#addFriendModal .modal-body {
+    padding: 0 1.5rem 1.5rem 1.5rem;
+}
+
+#friendSearchInput {
+    border-radius: 10px;
+    padding: 0.75rem;
+    border: 2px solid #dee2e6;
+    transition: all 0.3s ease;
+}
+
+#friendSearchInput:focus {
+    border-color: #007bff;
+    box-shadow: none;
+}
+</style>
+</body>
+</html>

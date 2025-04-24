@@ -9,7 +9,5 @@
 @crt_activities
 @crt_expenses
 @crt_expense_settlements
-
-
-
-
+@crt_friends
+@crt_sequences

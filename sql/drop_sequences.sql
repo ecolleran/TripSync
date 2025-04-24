@@ -1,0 +1,12 @@
+DROP SEQUENCE user_id;
+DROP SEQUENCE group_id;
+DROP SEQUENCE member_id;
+DROP SEQUENCE trip_id;
+DROP SEQUENCE destination_id;
+DROP SEQUENCE flight_id;
+DROP SEQUENCE accomodation_id;
+DROP SEQUENCE restaurant_id;
+DROP SEQUENCE activity_id;
+DROP SEQUENCE expense_id;
+DROP SEQUENCE settlement_id;
+DROP SEQUENCE friend_id;

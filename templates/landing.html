@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TripSync - Your Travel Companion</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+
+        .navbar {
+            padding: 1.2rem 2rem;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+        }
+
+        .navbar-brand img {
+            height: 120px;
+            transition: transform 0.3s ease;
+        }
+
+        .navbar-brand:hover img {
+            transform: scale(1.05);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            padding: 5px 30px;
+            border-radius: 50px;
+            background-color: #f8f9fa;
+            transition: all 0.3s ease;
+        }
+
+        .user-profile:hover {
+            background-color: #e9ecef;
+        }
+
+        .profile-picture {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin-right: 20px;
+            object-fit: cover;
+            border: 2px solid #007bff;
+        }
+
+        .user-name {
+            color: #495057;
+            font-weight: 500;
+            font-size: 1.5rem;
+            margin-right: 8px;
+        }
+
+	.user-profile i {
+	    font-size: 1.1rem;
+	}
+
+        .dropdown-menu {
+            margin-top: 10px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border: none;
+            padding: 10px;
+	    min-width: 220px;
+        }
+
+        .dropdown-item {
+            border-radius: 8px;
+            padding: 8px 20px;
+            color: #495057;
+	    font-size: 1.5rem;
+            transition: all 0.2s ease;
+        }
+	
+	.dropdown-item i{
+	    font-size: 1.2rem;
+	    margin-right: 12px;
+	    width: 25px;
+	}
+
+        .dropdown-item:hover {
+            background-color: #f8f9fa;
+            color: #007bff;
+        }
+
+        .dropdown-divider {
+            margin: 8px 0i;
+	    opacity: 0.1;
+        }
+
+        .auth-buttons .btn {
+            margin-left: 10px;
+        }
+
+        .btn-create-account {
+            background: linear-gradient(45deg, #007bff, #0056b3);
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-create-account:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,123,255,0.2);
+        }
+
+        .btn-sign-in {
+            border: 2px solid #007bff;
+            color: #007bff;
+            padding: 8px 20px;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-sign-in:hover {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .hero-section {
+            padding: 6rem 2rem;
+            min-height: calc(100vh - 76px);
+            display: flex;
+            align-items: center;
+        }
+
+        .hero-content {
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, #1a73e8, #0056b3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .description-text {
+            color: #495057;
+            margin-bottom: 2.5rem;
+        }
+
+        .description-text .lead {
+            font-size: 1.5rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .btn {
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #007bff, #0056b3);
+            border: none;
+            box-shadow: 0 4px 15px rgba(0,123,255,0.2);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,123,255,0.3);
+        }
+
+        .plane-illustration {
+            width: 400px;
+            height: 400px;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            .plane-illustration {
+                width: 300px;
+                height: 300px;
+                margin-top: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="TripSync Logo" height="40">
+            </a>
+            
+            <div class="d-flex align-items-center">
+
+                {% if session.get('logged_in') %}
+                <div class="dropdown">
+		    <div class="user-profile" data-bs-toggle="dropdown" aria-expanded="false">
+    {% if session.get('profile_picture') %}
+        <img src="data:image/*;base64,{{ session.get('profile_picture') }}" 
+             alt="Profile Picture" 
+             class="profile-picture"
+             onerror="this.src='{{ url_for('static', filename='images/default-profile.png') }}'">
+    {% else %}
+        <img src="{{ url_for('static', filename='images/default-profile.png') }}" 
+             alt="Profile Picture" 
+             class="profile-picture">
+    {% endif %}
+    <span class="user-name">{{ session.get('first_name', 'User') }}</span>
+    <i class="fas fa-chevron-down ms-2"></i>
+</div>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="{{ url_for('dashboard') }}">
+                            <i class="fas fa-columns me-2"></i>Dashboard
+                        </a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('settings') }}">
+                            <i class="fas fa-cog me-2"></i>Settings
+                        </a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{{ url_for('logout') }}">
+                            <i class="fas fa-sign-out-alt me-2"></i>Log Out
+                        </a></li>
+                    </ul>
+                </div>
+                {% else %}
+                <div class="auth-buttons">
+                    <a href="{{ url_for('login') }}" class="btn btn-sign-in">Sign In</a>
+                    <a href="{{ url_for('register') }}" class="btn btn-create-account">Create Account</a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="container">
+        <div class="row hero-section">
+            <div class="col-lg-6 hero-content">
+                <h1 class="hero-title">Adventure Awaits</h1>
+                <div class="description-text">
+                    <p class="lead">Plan your perfect journey with ease</p>
+                    <p>Join thousands of travelers discovering amazing destinations and creating unforgettable memories with TripSync's intelligent travel planning.</p>
+                </div>
+                {% if session.get('logged_in') %}
+                    <a href="{{ url_for('dashboard') }}" class="btn btn-primary btn-lg">Go to Dashboard</a>
+                {% else %}
+                    <a href="{{ url_for('login') }}" class="btn btn-primary btn-lg">Get Started</a>
+                {% endif %}
+            </div>
+            <div class="col-lg-6 text-center">
+                <!-- Plane illustration -->
+		<svg class="plane-illustration" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    		    <path d="M12 2L2 14H22L12 2Z" fill="url(#gradient1)"/>
+    		    <path d="M12 22L22 10H2L12 22Z" fill="url(#gradient2)"/>
+    		    <path d="M12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16Z" fill="#ffffff"/>
+    		    <defs>
+        		<linearGradient id="gradient1" x1="2" y1="2" x2="22" y2="14" gradientUnits="userSpaceOnUse">
+            		    <stop offset="0%" stop-color="#007bff"/>
+            		    <stop offset="100%" stop-color="#00bcd4"/>
+        		</linearGradient>
+        		<linearGradient id="gradient2" x1="2" y1="10" x2="22" y2="22" gradientUnits="userSpaceOnUse">
+            		    <stop offset="0%" stop-color="#0056b3"/>
+            		    <stop offset="100%" stop-color="#007bff"/>
+        		</linearGradient>
+    		    </defs>
+		</svg>
+	    </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and Font Awesome -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</body>
+</html>

@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TripSync - Create Trip</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            min-height: 100vh;
+        }
+
+        .navbar {
+            padding: 1.2rem 2rem;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+        }
+
+        .navbar-brand img {
+            height: 120px;
+            transition: transform 0.3s ease;
+        }
+
+        .navbar-brand:hover img {
+            transform: scale(1.05);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            padding: 5px 30px;
+            border-radius: 50px;
+            background-color: #f8f9fa;
+            transition: all 0.3s ease;
+        }
+
+        .user-profile:hover {
+            background-color: #e9ecef;
+        }
+
+        .profile-picture {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin-right: 20px;
+            object-fit: cover;
+            border: 2px solid #007bff;
+        }
+
+        .user-name {
+            color: #495057;
+            font-weight: 500;
+            font-size: 1.5rem;
+            margin-right: 8px;
+        }
+
+        .create-trip-container {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-top: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+
+        .create-trip-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .create-trip-header h1 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: #2d3436;
+            margin-bottom: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            font-weight: 500;
+            color: #2d3436;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-control {
+            padding: 0.75rem;
+            border-radius: 10px;
+            border: 2px solid #dee2e6;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: none;
+        }
+
+        .form-select {
+            padding: 0.75rem;
+            border-radius: 10px;
+            border: 2px solid #dee2e6;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-select:focus {
+            border-color: #007bff;
+            box-shadow: none;
+        }
+
+        .calendar-grid {
+            border: 1px solid #dee2e6;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .calendar-header {
+            background-color: #f8f9fa;
+            padding: 1rem;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .calendar-body {
+            padding: 1rem;
+        }
+
+        .btn-create-trip {
+            background: linear-gradient(45deg, #007bff, #0056b3);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 2rem;
+        }
+
+        .btn-create-trip:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,123,255,0.2);
+        }
+
+        .photo-upload {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .photo-preview {
+            width: 200px;
+            height: 200px;
+            border-radius: 15px;
+            object-fit: cover;
+            border: 3px solid #007bff;
+            margin-bottom: 1rem;
+        }
+
+        .btn-upload {
+            background: #007bff;
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            border: none;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-upload:hover {
+            background: #0056b3;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="TripSync Logo">
+            </a>
+            
+            <div class="d-flex align-items-center">
+                <div class="dropdown">
+                    <div class="user-profile" data-bs-toggle="dropdown" aria-expanded="false">
+    {% if session.get('profile_picture') %}
+        <img src="data:image/*;base64,{{ session.get('profile_picture') }}" 
+             alt="Profile Picture" 
+             class="profile-picture"
+             onerror="this.src='{{ url_for('static', filename='images/default-profile.png') }}'">
+    {% else %}
+        <img src="{{ url_for('static', filename='images/default-profile.png') }}" 
+             alt="Profile Picture" 
+             class="profile-picture">
+    {% endif %}
+    <span class="user-name">{{ session.get('first_name', 'User') }}</span>
+    <i class="fas fa-chevron-down ms-2"></i>
+</div>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="{{ url_for('dashboard') }}">
+                            <i class="fas fa-columns me-2"></i>Dashboard
+                        </a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('settings') }}">
+                            <i class="fas fa-cog me-2"></i>Settings
+                        </a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{{ url_for('logout') }}">
+                            <i class="fas fa-sign-out-alt me-2"></i>Log Out
+                        </a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Create Trip Form -->
+    <div class="container">
+        <div class="create-trip-container">
+            <div class="create-trip-header">
+                <h1>Create Trip</h1>
+            </div>
+            <form action="{{ url_for('create_trip') }}" method="POST" enctype="multipart/form-data">
+                <!-- Trip Photo Upload -->
+                <div class="photo-upload">
+                    <img src="{{ url_for('static', filename='images/trip_photo_default.png') }}" 
+                         alt="Trip Photo" 
+                         class="photo-preview" 
+                         id="photoPreview">
+                    <div>
+                        <input type="file" id="trip_photo" name="trip_photo" class="d-none" accept="image/*">
+                        <label for="trip_photo" class="btn btn-upload">
+                            <i class="fas fa-camera me-2"></i>Choose Photo
+                        </label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <!-- Left Column -->
+                        <div class="form-group">
+                            <label for="tripName" class="form-label">Trip Name</label>
+                            <input type="text" class="form-control" id="tripName" name="trip_name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="selectGroup" class="form-label">Select Group</label>
+                            <select class="form-select" id="selectGroup" name="group_id" required>
+                                <option value="">Select a group</option>
+                                {% for group in groups %}
+                                <option value="{{ group.group_id }}"
+				        {% if selected_group_id and selected_group_id|string == group.group_id|string %}selected{% endif %}>
+            			    {{ group.group_name }}
+				</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="tripDescription" class="form-label">Trip Description</label>
+                            <textarea class="form-control" id="tripDescription" name="trip_description" rows="4"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <!-- Right Column -->
+                        <div class="form-group">
+                            <label class="form-label">Select Start/End Dates</label>
+                            <div class="calendar-grid">
+                                <div class="calendar-header">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <label for="startDate">Start Date</label>
+                                            <input type="date" class="form-control" id="startDate" name="start_date">
+                                        </div>
+                                        <div class="col-6">
+                                            <label for="endDate">End Date</label>
+                                            <input type="date" class="form-control" id="endDate" name="end_date">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-create-trip">
+                    <i class="fas fa-plane-departure me-2"></i>Create Trip
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Add date validation
+        document.getElementById('endDate').addEventListener('change', function() {
+            var startDate = document.getElementById('startDate').value;
+            var endDate = this.value;
+            
+            if (startDate && endDate && startDate > endDate) {
+                alert('End date must be after start date');
+                this.value = '';
+            }
+        });
+
+        // Photo Preview Script
+        document.getElementById('trip_photo').addEventListener('change', function(e) {
+            if (this.files && this.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('photoPreview').src = e.target.result;
+                };
+                reader.readAsDataURL(this.files[0]);
+            }
+        });
+    </script>
+</body>
+</html>

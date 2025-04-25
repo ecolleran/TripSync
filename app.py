@@ -41,11 +41,16 @@ app.add_url_rule('/group/<int:group_id>', view_func=gf.group_details, methods=['
 app.add_url_rule('/trip/<int:trip_id>', view_func=tf.trip_details, methods=['GET'])
 app.add_url_rule('/search_users_for_group', view_func=gf.search_users_for_group, methods=['GET'])
 app.add_url_rule('/add_group_member', view_func=gf.add_group_member, methods=['POST'])
-
-
-
-
-
+app.add_url_rule('/group/<int:group_id>/edit', view_func=gf.edit_group_page, methods=['GET'])
+app.add_url_rule('/group/<int:group_id>/edit/submit', view_func=gf.edit_group, methods=['POST'])
+app.add_url_rule('/remove_group_member', view_func=gf.remove_group_member, methods=['POST'])
+app.add_url_rule('/group/<int:group_id>/delete', view_func=gf.delete_group, methods=['POST'])
+app.add_url_rule('/trip/<int:trip_id>/edit', view_func=tf.edit_trip, methods=['GET', 'POST'])
+app.add_url_rule('/trip/<int:trip_id>/delete', view_func=tf.delete_trip, methods=['POST'])
+app.add_url_rule('/search_flights', view_func=tf.search_flights, methods=['POST'])
+app.add_url_rule('/add_flight_to_trip', view_func=tf.add_flight_to_trip, methods=['POST'])
+app.add_url_rule('/search_destinations', view_func=sf.search_destinations_route, methods=['POST'])
+app.add_url_rule('/add_destination_to_trip', view_func=tf.add_destination_to_trip, methods=['POST'])
 
 
 

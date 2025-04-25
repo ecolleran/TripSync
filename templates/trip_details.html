@@ -11,7 +11,6 @@
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        /* Keep the existing styles from group_details.html */
         body {
             font-family: 'Poppins', sans-serif;
             background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
@@ -25,26 +24,125 @@
             box-shadow: 0 2px 15px rgba(0,0,0,0.05);
         }
 
-        /* ... (keep all the existing styles) ... */
+        .navbar-brand img {
+            height: 120px;
+            transition: transform 0.3s ease;
+        }
 
-        /* Add new styles specific to trip details */
+        .navbar-brand:hover img {
+            transform: scale(1.05);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            padding: 5px 30px;
+            border-radius: 50px;
+            background-color: #f8f9fa;
+            transition: all 0.3s ease;
+        }
+
+        .user-profile:hover {
+            background-color: #e9ecef;
+        }
+
+        .profile-picture {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin-right: 20px;
+            object-fit: cover;
+            border: 2px solid #007bff;
+        }
+
+        .user-name {
+            color: #495057;
+            font-weight: 500;
+            font-size: 1.5rem;
+            margin-right: 8px;
+        }
+
+        .btn-find-trip {
+            background: linear-gradient(45deg, #28a745, #218838);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .btn-find-trip:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(40,167,69,0.2);
+            color: white;
+        }
+
         .trip-header {
             background: white;
             border-radius: 15px;
             padding: 2rem;
             margin-top: 2rem;
             box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: flex-start;
+            gap: 2rem;
         }
 
-        .trip-title {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
+        .trip-photo {
+            width: 200px;
+            height: 200px;
+            border-radius: 15px;
+            object-fit: cover;
         }
 
         .trip-info {
             flex-grow: 1;
+        }
+
+        .trip-info h1 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: #2d3436;
+            margin-bottom: 0.5rem;
+        }
+
+        .trip-meta {
+            color: #6c757d;
+            margin-bottom: 1rem;
+        }
+
+        .trip-description {
+            color: #495057;
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .trip-dates {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .date-box {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .date-box h3 {
+            font-size: 1rem;
+            color: #6c757d;
+            margin-bottom: 0.5rem;
+        }
+
+        .date-box p {
+            font-size: 1.1rem;
+            color: #2d3436;
+            margin: 0;
         }
 
         .countdown {
@@ -53,165 +151,305 @@
             padding: 1rem 2rem;
             border-radius: 10px;
             text-align: center;
+            margin-left: auto;
             min-width: 200px;
         }
 
         .countdown h3 {
-            font-size: 1.2rem;
-            margin: 0;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
         }
 
         .countdown p {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             font-weight: 600;
             margin: 0;
+            font-family: monospace;
         }
 
-        .trip-nav {
-            display: flex;
-            gap: 1rem;
-            margin-top: 2rem;
-            border-bottom: 2px solid #dee2e6;
-            padding-bottom: 1rem;
-        }
-
-        .trip-nav-item {
-            padding: 0.5rem 1rem;
-            cursor: pointer;
-            color: #6c757d;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-
-        .trip-nav-item.active {
-            color: #007bff;
-            border-bottom: 3px solid #007bff;
-            margin-bottom: -2px;
-        }
-
-        .trip-nav-item:hover {
-            color: #007bff;
-        }
-
-        .flight-card {
+        .content-section {
             background: white;
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 1rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-top: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
         }
 
-        .vote-section {
-            display: flex;
-            align-items: center;
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #2d3436;
+            margin-bottom: 1.5rem;
+        }
+
+        .participants-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             gap: 1rem;
         }
 
-        .vote-count {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: #007bff;
-        }
-
-        .search-flights {
+        .participant-card {
             background: #f8f9fa;
             border-radius: 12px;
             padding: 1rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .participant-card:hover {
+            transform: translateY(-5px);
+            background: #e9ecef;
+        }
+
+        .participant-photo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            object-fit: cover;
+        }
+
+        .participant-name {
+            font-weight: 500;
+            color: #2d3436;
+            margin: 0;
+        }
+
+        .btn-edit-trip {
+            background: #f8f9fa;
+            color: #495057;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            margin-left: 1rem;
+        }
+
+        .btn-edit-trip:hover {
+            background: #e9ecef;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .nav-bar {
+            background-color: white;
+            padding: 0.75rem;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             margin-top: 1rem;
         }
 
-        .search-input {
-            width: 100%;
+        .nav-item {
+            flex: 1;
+            text-align: center;
+        }
+
+        .nav-link {
+            color: #495057;
             padding: 0.75rem;
-            border: 2px solid #dee2e6;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
             border-radius: 8px;
-            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .nav-link:hover {
+            color: #007bff;
+            background-color: #f8f9fa;
+        }
+
+        .nav-link.active {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .content-view {
+            display: none;
+        }
+
+        .content-view.active {
+            display: block;
         }
     </style>
 </head>
 <body>
-    <!-- Keep the existing navbar -->
+    <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg sticky-top">
-        <!-- ... (same navbar code as group_details.html) ... -->
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="TripSync Logo">
+            </a>
+            
+            <div class="d-flex align-items-center">
+                <a href="{{ url_for('trip_search') }}" class="btn-find-trip me-3">
+                    <i class="fas fa-search me-2"></i>Plan a Trip!
+                </a>
+                <div class="dropdown">
+                    <div class="user-profile" data-bs-toggle="dropdown" aria-expanded="false">
+                        {% if session.get('profile_picture') %}
+                            <img src="data:image/*;base64,{{ session.get('profile_picture') }}" 
+                                 alt="Profile Picture" 
+                                 class="profile-picture"
+                                 onerror="this.src='{{ url_for('static', filename='images/default-profile.png') }}'">
+                        {% else %}
+                            <img src="{{ url_for('static', filename='images/default-profile.png') }}" 
+                                 alt="Profile Picture" 
+                                 class="profile-picture">
+                        {% endif %}
+                        <span class="user-name">{{ session.get('first_name', 'User') }}</span>
+                        <i class="fas fa-chevron-down ms-2"></i>
+                    </div>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="{{ url_for('dashboard') }}">
+                            <i class="fas fa-columns me-2"></i>Dashboard
+                        </a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('settings') }}">
+                            <i class="fas fa-cog me-2"></i>Settings
+                        </a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{{ url_for('logout') }}">
+                            <i class="fas fa-sign-out-alt me-2"></i>Log Out
+                        </a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </nav>
 
     <!-- Main Content -->
     <div class="container">
         <!-- Trip Header -->
         <div class="trip-header">
-            <div class="trip-title">
-                <div class="trip-info">
-                    <h1>{{ trip.name }}</h1>
-                    <p class="text-muted">{{ trip.group_name }}</p>
-                    <p>{{ trip.description }}</p>
-                </div>
-                <div class="countdown">
-                    <h3>Trip starts in</h3>
-                    <p>{{ trip.countdown }}</p>
-                </div>
-            </div>
+            {% if trip.photo %}
+                <img src="data:image/*;base64,{{ trip.photo }}" 
+                     alt="{{ trip.name }}" 
+                     class="trip-photo">
+            {% else %}
+                <img src="{{ url_for('static', filename='images/default-trip.png') }}" 
+                     alt="{{ trip.name }}" 
+                     class="trip-photo">
+            {% endif %}
             
-            <!-- Trip Navigation -->
-            <div class="trip-nav">
-                <div class="trip-nav-item active">Trip Details</div>
-                <div class="trip-nav-item">Itinerary</div>
-                <div class="trip-nav-item">Flights</div>
-                <div class="trip-nav-item">Accommodation</div>
-                <div class="trip-nav-item">Activities</div>
-                <div class="trip-nav-item">Documents</div>
+            <div class="trip-info">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <h1>{{ trip.name }}</h1>
+                        <div class="trip-meta">
+                            <i class="fas fa-users me-2"></i>{{ trip.group_name }}
+                        </div>
+                    </div>
+			<a href="{{ url_for('edit_trip', trip_id=trip.id) }}" class="btn-edit-trip">
+        		    <i class="fas fa-edit me-2"></i>Edit Trip
+    			</a>
+                </div>
+                
+                <p class="trip-description">{{ trip.description }}</p>
+                
+                <div class="trip-dates">
+                    <div class="date-box">
+                        <h3>Start Date</h3>
+                        <p>{{ trip.start_date or 'Not set' }}</p>
+                    </div>
+                    <div class="date-box">
+                        <h3>End Date</h3>
+                        <p>{{ trip.end_date or 'Not set' }}</p>
+                    </div>
+                    {% if trip.countdown %}
+                        <div class="countdown">
+                            <h3>Trip starts in</h3>
+                            <p id="countdown-text" data-date="{{ trip.countdown }}">Calculating...</p>
+                        </div>
+                    {% endif %}
+                </div>
             </div>
         </div>
 
-        <!-- Flights Section -->
-        <div class="content-section">
-            <div class="section-title">
-                <span>Flights</span>
-                <div class="search-box">
-                    <input type="text" placeholder="Search for flights..." class="search-input">
-                </div>
+        <!-- Navigation Bar -->
+        <div class="nav-bar">
+            <div class="nav-item">
+                <a class="nav-link active" href="#itinerary" data-view="itinerary">
+                    <i class="fas fa-calendar-alt"></i>
+                    Itinerary
+                </a>
             </div>
+            <div class="nav-item">
+                <a class="nav-link" href="#flights" data-view="flights">
+                    <i class="fas fa-plane"></i>
+                    Flights
+                </a>
+            </div>
+            <div class="nav-item">
+                <a class="nav-link" href="#accommodations" data-view="accommodations">
+                    <i class="fas fa-bed"></i>
+                    Accommodations
+                </a>
+            </div>
+            <div class="nav-item">
+                <a class="nav-link" href="#activities" data-view="activities">
+                    <i class="fas fa-hiking"></i>
+                    Activities
+                </a>
+            </div>
+            <div class="nav-item">
+                <a class="nav-link" href="#restaurants" data-view="restaurants">
+                    <i class="fas fa-utensils"></i>
+                    Restaurants
+                </a>
+            </div>
+        </div>
 
-            <!-- Vote Section -->
-            <div class="row">
-                <div class="col-md-6">
-                    <h4>Vote</h4>
-                    {% for flight in trip.flights_to_vote %}
-                    <div class="flight-card">
-                        <div class="flight-info">
-                            <h5>{{ flight.airline }}</h5>
-                            <p>{{ flight.departure_time }} - {{ flight.arrival_time }}</p>
-                            <p class="text-muted">${{ flight.price }}</p>
-                        </div>
-                        <div class="vote-section">
-                            <span class="vote-count">{{ flight.votes }}</span>
-                            <button class="btn btn-outline-primary">
-                                <i class="fas fa-thumbs-up"></i>
-                            </button>
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
+        <!-- Content Views -->
+        <div id="itinerary" class="content-view active content-section">
+            <h2 class="section-title">Itinerary</h2>
+            <!-- Itinerary content will go here -->
+        </div>
 
-                <div class="col-md-6">
-                    <h4>Final</h4>
-                    {% if trip.final_flight %}
-                    <div class="flight-card">
-                        <div class="flight-info">
-                            <h5>{{ trip.final_flight.airline }}</h5>
-                            <p>{{ trip.final_flight.departure_time }} - {{ trip.final_flight.arrival_time }}</p>
-                            <p class="text-muted">${{ trip.final_flight.price }}</p>
-                        </div>
-                        <div class="status">
-                            <span class="badge bg-success">Confirmed</span>
-                        </div>
+        <div id="flights" class="content-view content-section">
+            <h2 class="section-title">Flights</h2>
+            <!-- Flights content will go here -->
+        </div>
+
+        <div id="accommodations" class="content-view content-section">
+            <h2 class="section-title">Accommodations</h2>
+            <!-- Accommodations content will go here -->
+        </div>
+
+        <div id="activities" class="content-view content-section">
+            <h2 class="section-title">Activities</h2>
+            <!-- Activities content will go here -->
+        </div>
+
+        <div id="restaurants" class="content-view content-section">
+            <h2 class="section-title">Restaurants</h2>
+            <!-- Restaurants content will go here -->
+        </div>
+
+        <!-- Participants Section -->
+        <div class="content-section">
+            <h2 class="section-title">Participants</h2>
+            <div class="participants-grid">
+                {% for participant in participants %}
+                    <div class="participant-card">
+                        {% if participant.profile_picture %}
+                            <img src="data:image/*;base64,{{ participant.profile_picture }}" 
+                                 alt="{{ participant.name }}" 
+                                 class="participant-photo">
+                        {% else %}
+                            <img src="{{ url_for('static', filename='images/default-profile.png') }}" 
+                                 alt="{{ participant.name }}" 
+                                 class="participant-photo">
+                        {% endif %}
+                        <p class="participant-name">{{ participant.name }}</p>
                     </div>
-                    {% else %}
-                    <p class="text-muted">No flight selected yet</p>
-                    {% endif %}
-                </div>
+                {% endfor %}
             </div>
         </div>
     </div>
@@ -219,12 +457,50 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Add any JavaScript for interactivity
-        document.querySelectorAll('.trip-nav-item').forEach(item => {
-            item.addEventListener('click', function() {
-                document.querySelectorAll('.trip-nav-item').forEach(i => i.classList.remove('active'));
+        function updateCountdown() {
+            const countdownElement = document.getElementById('countdown-text');
+            if (!countdownElement) return;
+
+            const tripDate = new Date(countdownElement.dataset.date);
+            const now = new Date();
+            const diff = tripDate - now;
+
+            if (diff <= 0) {
+                countdownElement.textContent = "Trip has started!";
+                return;
+            }
+
+            // Calculate days, hours, minutes, and seconds
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            // Update the countdown text
+            countdownElement.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+        }
+
+        // If there's a countdown, start updating it
+        if (document.getElementById('countdown-text')) {
+            // Update immediately
+            updateCountdown();
+            // Then update every second
+            setInterval(updateCountdown, 1000);
+        }
+
+        // Handle navigation
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Remove active class from all links and content views
+                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                document.querySelectorAll('.content-view').forEach(v => v.classList.remove('active'));
+                
+                // Add active class to clicked link and corresponding content view
                 this.classList.add('active');
-                // Add logic to show/hide corresponding content sections
+                const viewId = this.getAttribute('data-view');
+                document.getElementById(viewId).classList.add('active');
             });
         });
     </script>

@@ -1,0 +1,460 @@
+<style>
+/* Destination Search Section */
+.search-section {
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.search-section h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #2d3436;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(45deg, #007bff, #0056b3);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.05);
+}
+
+.search-form {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    margin-bottom: 1.5rem;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.search-inputs {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.search-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 1rem;
+}
+
+.btn-search {
+    background: linear-gradient(45deg, #007bff, #0056b3);
+    color: white;
+    border: none;
+    padding: 0.5rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.btn-search:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0,123,255,0.2);
+}
+
+/* Filter Sidebar */
+.filter-sidebar {
+    flex: 0 0 200px;
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    height: fit-content;
+}
+
+.filter-sidebar h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #2d3436;
+    margin-bottom: 1rem;
+}
+
+.btn-apply-filters {
+    width: 100%;
+    background: linear-gradient(45deg, #0056b3, #004494);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+}
+
+.btn-apply-filters:hover {
+    background: linear-gradient(45deg, #004494, #003373);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    color: white;
+}
+
+/* Search Content Layout */
+.search-content {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+/* Destination Results */
+.destination-results {
+    flex: 1;
+}
+
+.destination-card {
+    background: white;
+    border-radius: 15px;
+    padding: 1.8rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+    border: 1px solid #f0f0f0;
+}
+
+.destination-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+.destination-header {
+    padding-bottom: 1.2rem;
+    border-bottom: 1px solid #f0f0f0;
+    margin-bottom: 1.2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.destination-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.destination-info span {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #2d3436;
+}
+
+.destination-code {
+    font-size: 1.1rem;
+    color: #6c757d;
+    font-weight: 500;
+    background: #f8f9fa;
+    padding: 0.3rem 0.8rem;
+    border-radius: 6px;
+}
+
+.destination-details {
+    margin-top: 1rem;
+    color: #495057;
+}
+
+.destination-actions {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 1rem;
+    border-top: 1px solid #f0f0f0;
+    margin-top: 1rem;
+}
+
+.add-destination-btn {
+    background: linear-gradient(45deg, #28a745, #218838);
+    color: white;
+    border: none;
+    padding: 0.5rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.add-destination-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(40,167,69,0.2);
+}
+
+.add-destination-btn.disabled {
+    background: #6c757d;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Loading and Alerts */
+.text-center .fa-spinner {
+    color: #007bff;
+    margin: 2rem 0;
+}
+
+.alert {
+    border-radius: 12px;
+    padding: 1.5rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+}
+
+.alert-info {
+    background-color: #e3f2fd;
+    border-color: #bbdefb;
+    color: #0d47a1;
+}
+
+.alert-danger {
+    background-color: #ffebee;
+    border-color: #ffcdd2;
+    color: #b71c1c;
+}
+
+.alert-success {
+    background-color: #e8f5e9;
+    border-color: #c8e6c9;
+    color: #1b5e20;
+}
+</style>
+
+<!-- Destination Search Component -->
+<div id="destinations" class="content-view">
+    <div class="search-section">
+        <h2>Destination Search</h2>
+        <form id="destinationSearchForm" onsubmit="searchDestinations(event)">
+            <div class="search-form">
+                <div class="search-inputs">
+                    <div class="form-group">
+                        <label for="keyword">Search Destinations</label>
+                        <input type="text" class="form-control" id="keyword" name="keyword" 
+                               placeholder="Enter city name or airport code" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="countryCode">Country (Optional)</label>
+                        <input type="text" class="form-control" id="countryCode" name="countryCode" 
+                               placeholder="Country code (e.g., US)">
+                    </div>
+                </div>
+
+                <div class="search-actions">
+                    <button type="submit" class="btn btn-search">
+                        <i class="fas fa-search me-2"></i>Search Destinations
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        <div class="search-content">
+            <div class="filter-sidebar">
+                <h3>Filters</h3>
+                <div class="form-group mb-3">
+                    <label for="destinationType">Destination Type</label>
+                    <select class="form-control" id="destinationType">
+                        <option value="all">All Types</option>
+                        <option value="city">Cities Only</option>
+                        <option value="airport">Airports Only</option>
+                    </select>
+                </div>
+                <button type="button" class="btn btn-apply-filters" onclick="applyDestinationFilters()">
+                    <i class="fas fa-filter me-2"></i>Apply Filters
+                </button>
+            </div>
+
+            <div class="destination-results" id="destinationResults">
+                <!-- Destination results will be dynamically inserted here -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function createDestinationCard(destination) {
+    const card = document.createElement('div');
+    card.className = 'destination-card';
+    
+    // Store destination data as a data attribute
+    card.dataset.destinationData = JSON.stringify(destination);
+    
+    card.innerHTML = `
+        <div class="destination-header">
+            <div class="destination-info">
+                <span>${destination.city}</span>
+                <div class="destination-code">${destination.iataCode}</div>
+            </div>
+            <div class="country-code">${destination.countryCode}</div>
+        </div>
+        <div class="destination-actions">
+            <button class="btn add-destination-btn" onclick="addDestinationToTrip(this)" data-added="false">
+                <i class="fas fa-plus me-2"></i>Add to Trip
+            </button>
+        </div>
+    `;
+    return card;
+}
+
+function searchDestinations(event) {
+    event.preventDefault();
+    
+    const keyword = document.getElementById('keyword').value;
+    const countryCode = document.getElementById('countryCode').value;
+    const destinationType = document.getElementById('destinationType').value;
+    
+    // Show loading state
+    document.getElementById('destinationResults').innerHTML = 
+        '<div class="text-center"><i class="fas fa-spinner fa-spin fa-2x"></i></div>';
+
+    // Create FormData
+    const formData = new FormData();
+    formData.append('keyword', keyword);
+    if (countryCode) formData.append('countryCode', countryCode);
+    formData.append('destinationType', destinationType);
+
+    fetch('/search_destinations', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        const resultsContainer = document.getElementById('destinationResults');
+        
+        if (!data.destinations || Object.keys(data.destinations).length === 0) {
+            resultsContainer.innerHTML = `
+                <div class="alert alert-info">
+                    No destinations found matching your criteria. Try adjusting your search.
+                </div>
+            `;
+            return;
+        }
+
+        resultsContainer.innerHTML = '';
+        Object.values(data.destinations).forEach(destination => {
+            if (destinationType === 'all' || 
+                (destinationType === destination.type)) {
+                const destinationCard = createDestinationCard(destination);
+                resultsContainer.appendChild(destinationCard);
+            }
+        });
+
+        if (resultsContainer.children.length === 0) {
+            resultsContainer.innerHTML = `
+                <div class="alert alert-info">
+                    No destinations match your filter criteria. Try adjusting your filters.
+                </div>
+            `;
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        document.getElementById('destinationResults').innerHTML = `
+            <div class="alert alert-danger">
+                An error occurred while searching for destinations: ${error.message}
+            </div>
+        `;
+    });
+}
+
+function applyDestinationFilters() {
+    const destinationType = document.getElementById('destinationType').value;
+    // Re-run the search with current filters
+    document.getElementById('destinationSearchForm').dispatchEvent(new Event('submit'));
+}
+
+function addDestinationToTrip(button) {
+    // Check if the destination has already been added
+    if (button.innerHTML.includes('Added to Trip') || button.disabled) {
+        console.log('Destination already added');
+        return;
+    }
+    
+    // Get the selected trip ID
+    const tripSelect = document.getElementById('tripSelect');
+    const tripId = tripSelect.value;
+    
+    if (!tripId) {
+        alert('Please select a trip first!');
+        return;
+    }
+    
+    // Disable the button immediately
+    button.disabled = true;
+    button.classList.add('disabled');
+    
+    // Get the destination data from the card's dataset
+    const destinationCard = button.closest('.destination-card');
+    const destinationData = JSON.parse(destinationCard.dataset.destinationData);
+    
+    // Prepare the data to send to the server
+    const data = {
+        trip_id: tripId,
+        destination_data: destinationData
+    };
+    
+    // Send the data to the server
+    fetch('/add_destination_to_trip', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Show success message
+            const successAlert = document.createElement('div');
+            successAlert.className = 'alert alert-success';
+            successAlert.innerHTML = `
+                <i class="fas fa-check-circle me-2"></i>
+                Destination successfully added to your trip!
+            `;
+            
+            destinationCard.parentNode.insertBefore(successAlert, destinationCard);
+            
+            setTimeout(() => {
+                successAlert.remove();
+                button.innerHTML = '<i class="fas fa-check me-2"></i>Added to Trip';
+                button.classList.add('btn-success');
+                button.setAttribute('data-added', 'true');
+                button.disabled = true;
+                button.classList.add('disabled');
+                button.onclick = null;
+            }, 3000);
+        } else {
+            const errorAlert = document.createElement('div');
+            errorAlert.className = 'alert alert-danger';
+            errorAlert.innerHTML = `
+                <i class="fas fa-exclamation-circle me-2"></i>
+                ${data.error || 'Failed to add destination to trip. Please try again.'}
+            `;
+            
+            destinationCard.parentNode.insertBefore(errorAlert, destinationCard);
+            
+            setTimeout(() => {
+                errorAlert.remove();
+                button.disabled = false;
+                button.classList.remove('disabled');
+            }, 3000);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        const errorAlert = document.createElement('div');
+        errorAlert.className = 'alert alert-danger';
+        errorAlert.innerHTML = `
+            <i class="fas fa-exclamation-circle me-2"></i>
+            An error occurred while adding the destination. Please try again.
+        `;
+        
+        destinationCard.parentNode.insertBefore(errorAlert, destinationCard);
+        
+        setTimeout(() => {
+            errorAlert.remove();
+            button.disabled = false;
+            button.classList.remove('disabled');
+        }, 3000);
+    });
+}
+</script>

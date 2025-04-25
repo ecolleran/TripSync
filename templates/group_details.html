@@ -310,9 +310,9 @@
                 <a href="{{ url_for('create_new_trip', group_id=group.id) }}" class="btn btn-new-trip">
                     <i class="fas fa-plus me-2"></i>Plan New Trip
                 </a>
-                <button class="btn btn-edit-group">
-                    <i class="fas fa-edit me-2"></i>Edit Group
-                </button>
+		<button onclick="window.location.href='{{ url_for('edit_group_page', group_id=group.id) }}'" class="btn btn-edit-group">
+    		    <i class="fas fa-edit me-2"></i>Edit Group
+		</button>
             </div>
         </div>
 
@@ -337,17 +337,17 @@
                                 {% endif %}
 				<div class="card-info">
     <h3>{{ trip.name }}</h3>
-    <p>
-        {% if trip.start_date and trip.end_date %}
-            {{ trip.start_date.strftime('%b %d') }} - {{ trip.end_date.strftime('%b %d, %Y') }}
-        {% elif trip.start_date %}
-            Starting {{ trip.start_date.strftime('%b %d, %Y') }}
-        {% elif trip.end_date %}
-            Until {{ trip.end_date.strftime('%b %d, %Y') }}
-        {% else %}
-            Dates not set
-        {% endif %}
-    </p>
+<p>
+    {% if trip.start_date and trip.end_date %}
+        {{ trip.start_date }} - {{ trip.end_date }}
+    {% elif trip.start_date %}
+        Starting {{ trip.start_date }}
+    {% elif trip.end_date %}
+        Until {{ trip.end_date }}
+    {% else %}
+        Dates not set
+    {% endif %}
+</p>
 </div>
                             </a>
                         {% endfor %}

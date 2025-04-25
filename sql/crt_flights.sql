@@ -1,6 +1,7 @@
 create table flights
 	(flight_id integer PRIMARY KEY,
 	 trip_id integer,
+	 trip_flight_number integer,
 	 flight_number integer,
 	 airline varchar(5),
 	 currency_code varchar(5),

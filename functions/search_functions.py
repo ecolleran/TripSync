@@ -5,6 +5,7 @@ import hashlib
 from sql_connection import get_connection
 import cx_Oracle
 import io
+from dataCollection import destinations 
 
 from werkzeug.utils import secure_filename
 import os
@@ -70,3 +71,69 @@ def trip_search():
         return render_template('trip_search.html', trips=[])
     finally:
         cursor.close()
+
+
+
+@login_required
+def search_flights():
+    """
+    Handle flight search requests
+    """
+    if request.method == 'POST':
+        try:
+            # Get JSON data from request
+            data = request.get_json()
+            print("Received search request:", data)  # Debug print
+            
+            origin = data.get('origin')
+            destination = data.get('destination')
+            depart_date = data.get('departDate')
+            return_date = data.get('returnDate')
+            max_price = data.get('maxPrice')
+            nonstop_only = data.get('nonstopOnly') == 'true'
+     
+            # Call the Amadeus API
+            flight_data = flights.search_flights(
+                originLocationCode=origin,
+                destinationLocationCode=destination,
+                departureDate=depart_date,
+                returnDate=return_date if return_date else None,
+                maxPrice=max_price if max_price else None,
+                nonStop=nonstop_only
+                 
+            )
+            
+            print("Amadeus API response:", flight_data)  # Debug print
+            
+            # Parse the flight data
+            parsed_flights = flights.parse_flights(flight_data)
+            print("Parsed flights:", parsed_flights)  # Debug print
+            
+            return jsonify({'flights': parsed_flights})
+            
+        except Exception as e:
+            print(f"Error searching flights: {str(e)}")  # Debug print
+            return jsonify({'error': str(e)}), 500
+            
+    return jsonify({'error': 'Invalid request method'}), 400
+
+
+def search_destinations_route():
+    """Handle destination search requests"""
+    keyword = request.form.get('keyword')
+    country_code = request.form.get('countryCode')
+    
+    if not keyword:
+        return jsonify({"error": "Keyword is required"}), 400
+        
+    try:
+        results = destinations.search_destinations(keyword, country_code)
+        
+        if "error" in results:
+            return jsonify({"error": results["error"]}), 500
+            
+        return jsonify({"destinations": results})
+        
+    except Exception as e:
+        print(f"Unexpected error in search_destinations_route: {e}")
+        return jsonify({"error": "An unexpected error occurred"}), 500
